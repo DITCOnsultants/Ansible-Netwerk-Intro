@@ -1,0 +1,7 @@
+ip access-list standard ssh2-management
+ {% for ace in ace_del %}
+  no {{ ace[0] }} {{ ace[1] }} {{ ace[2] }}
+ {% endfor %}
+ {% for ace in ace_add %}
+  {{ ace[0] }} {{ ace[1] }} {{ ace[2] }}
+ {% endfor %}

@@ -1,0 +1,73 @@
+---
+host_name: "TestRouterR1"
+ansible_ssh_common_arg: "-o KexAlgorithms=diffie-hellman-group1-sha1"
+
+
+
+loopback_interfaces:
+  - name: loopback0
+    desc: MyFirstLoopback
+    addr: 10.255.1.1 255.255.255.255
+  - name: loopback1
+    desc: De tweede
+    addr: 10.255.1.2 255.255.255.255
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+acl_mgmt:
+  - 
+    - "10"
+    - "permit"
+    - "192.168.122.6"
+  - 
+    - "20"
+    - "deny"
+    - "any"

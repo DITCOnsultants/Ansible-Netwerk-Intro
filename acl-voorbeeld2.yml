@@ -1,0 +1,15 @@
+- name: Playbook - Manage ACL 2.0
+  hosts: R1
+  tasks:
+    - name: Task 01 - Set ACL
+      ios_config:
+        lines:
+          - no 10
+          - 10 permit host 192.168.122.5
+          - 20 deny any
+        parents: ip access-list standard ssh2-management
+      register: cli_output
+
+    - name: Task 02 - Show output
+      debug:
+        msg: "{{cli_output}}"

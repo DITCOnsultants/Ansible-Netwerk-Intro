@@ -1,0 +1,12 @@
+- name: Set hostname
+  hosts: R1
+  tasks:
+    - name: Set hostname
+      ios_config:
+        lines:
+          - hostname {{ host_name }}
+      register: result
+    - name: Show exec commands
+      debug:
+        msg: "{{ result.updates }}"
+

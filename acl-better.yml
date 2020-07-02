@@ -1,0 +1,45 @@
+- name: Manage ACL
+  hosts: R1
+  tasks:
+    - name: 01 Get current ACL
+      cli_command:
+        command: show ip access-list ssh2-management
+      register: output
+    - name: 02 Parse ACL
+      set_fact:
+        content_acl: "{{ output.stdout | parse_acl }}"
+    - name: DEBUG print HAVE
+      debug:
+        var: content_acl
+    - name: DEBUG print WANT
+      debug:
+        var: acl_mgmt
+    - name: 03 Store ACE entries to be deleted
+      set_fact:
+        ace_del: "{{ content_acl | get_delete(_to=acl_mgmt) }}"
+    - name: 04 Store ACE entries to be added
+      set_fact:
+        ace_add: "{{ content_acl | get_append(_to=acl_mgmt) }}"
+    - name: DEBUG Show ace_del
+      debug:
+        msg: "{{ace_del}}"
+    - name: DEBUG Show ace_add
+      debug:
+        msg: "{{ace_add}}"
+    - name: 05 Apply changes
+      ios_config:
+        src: "templates/acl-mgmt.j2"
+        save_when: changed
+      notify: config_changed
+      register: cli_result
+  handlers:
+    - name: "Handler 01: Display changes"
+      listen: config_changed
+      debug:
+        msg: "{{ cli_result.updates }}"
+        #      ios_config:
+#        lines:
+#          - 10 permit host 192.168.122.1
+#          - 20 deny any
+#        parents: ip access-list standard ssh2-management
+#        match: strict

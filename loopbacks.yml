@@ -1,0 +1,17 @@
+- name: Playbook - Create loopbacks
+  hosts: R1
+  tasks:
+    - name: Task 01 - Create interfaces
+      with_items: "{{loopback_interfaces}}"
+      ios_interfaces:
+        config:
+          - name: "{{item.name}}"
+            description: "{{item.desc}}"
+
+    - name: Task 02 - Set interface L3 parameters
+      with_items: "{{loopback_interfaces}}"
+      ios_l3_interfaces:
+        config:
+          - name: "{{item.name}}"
+            ipv4: 
+            - address: "{{item.addr}}"

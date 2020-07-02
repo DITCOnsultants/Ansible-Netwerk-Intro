@@ -1,0 +1,7 @@
+- name: Playbook - Set hostname
+  hosts: R1
+  tasks:
+    - name: Task 01 - Set hostname
+      ios_config:
+        lines:
+          - hostname {{ host_name }}
